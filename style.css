@@ -1,0 +1,347 @@
+@import url("https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Comfortaa&display=swap");
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: #b5b5b5;
+  color: #fff;
+  font-family: "Comfortaa", cursive;
+  overflow: hidden;
+}
+#container,
+#containerOne,
+#containerTwo {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  z-index: 10;
+}
+#containerOne,#containerTwo {
+    justify-content: space-around;
+}
+#container.displayNone,
+#containerOne.displayNone,
+#containerTwo.displayNone {
+  display: none;
+}
+#scoreBoard {
+  width: 100%;
+}
+.scores {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+}
+.score {
+  border: 1px solid rgb(48, 48, 216);
+  background-color: rgba(0, 0, 0, 0.2);
+  box-shadow: 0 6px 12px 0 rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(30px);
+  border-radius: 5px;
+  padding: 5px 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  font-family: "Comfortaa", cursive;
+}
+h6 {
+  font-family: "Alfa Slab One", cursive;
+  font-weight: 400;
+}
+
+.player {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  border: 1px solid rgb(48, 48, 216);
+  background-color: rgba(0, 0, 0, 0.2);
+  box-shadow: 0 6px 12px 0 rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(30px);
+  border-radius: 5px;
+  padding: 5px;
+  transition: 600ms all;
+}
+
+#gameContainer {
+  margin: 0 auto;
+  width: 420px;
+  height: 420px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: center;
+  border: 1px solid rgb(48, 48, 216);
+  background-color: rgba(0, 0, 0, 0.2);
+  box-shadow: 0 6px 12px 0 rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(30px);
+  border-radius: 5px;
+}
+
+.column {
+  border: 7px solid transparent;
+  width: 59px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 1;
+  position: relative;
+  animation: all 400ms;
+}
+.slot {
+  background-color: white;
+  width: 100%;
+  position: absolute;
+  z-index: 2;
+  height: 48px;
+  border-radius: 50%;
+  transition: all 300ms;
+}
+.slot.clickable {
+  cursor: pointer;
+}
+.slot.animated {
+  animation: bounceIn 0.3s ease;
+}
+.slot.clickable.red:hover {
+  background: rgba(255, 0, 0, 0.483);
+}
+.slot.clickable.yellow:hover {
+  background: rgb(255, 255, 108);
+}
+.slot.clickable.green:hover {
+  background: rgba(51, 255, 0, 0.483);
+}
+.slot.clickable.blue:hover {
+  background: rgba(43, 0, 255, 0.483);
+}
+.slot.clickable.purple:hover {
+  background: rgba(128, 0, 128, 0.483);
+}
+.slot.clickable.fuchsia:hover {
+  background: rgba(255, 0, 255, 0.483);
+}
+.slot.clickable.orange:hover {
+  background: rgb(255, 165, 0, 0.483);
+}
+.slot.clickable.aqua:hover {
+  background: rgba(0, 255, 255, 0.483);
+}
+.slot.clickable.lime:hover {
+  background: rgba(0, 255, 0, 0.483);
+}
+.slot.clickable.teal:hover {
+  background: rgba(0, 128, 128, 0.483);
+}
+.slot.clickable.navy:hover {
+  background: rgba(0, 0, 128, 0.483);
+}
+.slot.clickable.darkred:hover {
+  background: rgba(139, 0, 0, 0.483);
+}
+
+#playButton {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  cursor: pointer;
+  flex-direction: column-reverse;
+}
+
+.information {
+  position: relative;
+  width: 420px;
+  height: 420px;
+  border: 1px solid rgb(48, 48, 216);
+  background-color: rgba(0, 0, 0, 0.2);
+  box-shadow: 0 6px 12px 0 rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(30px);
+  border-radius: 5px;
+}
+
+input:hover {
+  cursor: pointer;
+}
+input[type="radio"]:checked,
+input[type="radio"]:focus {
+  background-color: red;
+}
+label {
+  position: relative;
+}
+
+input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  width: 40px;
+  height: 40px;
+}
+
+input[type="radio"] + .radioButton {
+  -webkit-transition: all 0.2s;
+  transition: all 0.2s;
+}
+
+.radioButton {
+  cursor: pointer;
+}
+.radioButton {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid transparent;
+  padding: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.radioButton i {
+  transition: 400ms all;
+  font-size: 20px;
+}
+.radioButton.blue i {
+  color: blue;
+}
+
+input[type="radio"]:hover + .radioButton.blue,
+input[type="radio"]:checked + .radioButton.blue,
+input[type="radio"]:focus + .radioButton.blue {
+  border-color: blue;
+}
+
+.radioButton.red i {
+  color: red;
+}
+
+input[type="radio"]:hover + .radioButton.red,
+input[type="radio"]:checked + .radioButton.red,
+input[type="radio"]:focus + .radioButton.red {
+  border-color: red;
+}
+
+.radioButton.green i {
+  color: green;
+}
+
+input[type="radio"]:hover + .radioButton.green,
+input[type="radio"]:checked + .radioButton.green,
+input[type="radio"]:focus + .radioButton.green {
+  border-color: green;
+}
+
+.radioButton.yellow i {
+  color: yellow;
+}
+
+input[type="radio"]:hover + .radioButton.yellow,
+input[type="radio"]:checked + .radioButton.yellow,
+input[type="radio"]:focus + .radioButton.yellow {
+  border-color: yellow;
+}
+.radioButton.aqua i {
+  color: aqua;
+}
+
+input[type="radio"]:hover + .radioButton.aqua,
+input[type="radio"]:checked + .radioButton.aqua,
+input[type="radio"]:focus + .radioButton.aqua {
+  border-color: aqua;
+}
+.radioButton.orange i {
+  color: orange;
+}
+
+input[type="radio"]:hover + .radioButton.orange,
+input[type="radio"]:checked + .radioButton.orange,
+input[type="radio"]:focus + .radioButton.orange {
+  border-color: orange;
+}
+.radioButton.fuchsia i {
+  color: fuchsia;
+}
+
+input[type="radio"]:hover + .radioButton.fuchsia,
+input[type="radio"]:checked + .radioButton.fuchsia,
+input[type="radio"]:focus + .radioButton.fuchsia {
+  border-color: fuchsia;
+}
+.radioButton.purple i {
+  color: purple;
+}
+
+input[type="radio"]:hover + .radioButton.purple,
+input[type="radio"]:checked + .radioButton.purple,
+input[type="radio"]:focus + .radioButton.purple {
+  border-color: purple;
+}
+.radioButton.lime i {
+  color: lime;
+}
+
+input[type="radio"]:hover + .radioButton.lime,
+input[type="radio"]:checked + .radioButton.lime,
+input[type="radio"]:focus + .radioButton.lime {
+  border-color: lime;
+}
+.radioButton.teal i {
+  color: teal;
+}
+
+input[type="radio"]:hover + .radioButton.teal,
+input[type="radio"]:checked + .radioButton.teal,
+input[type="radio"]:focus + .radioButton.teal {
+  border-color: teal;
+}
+.radioButton.navy i {
+  color: navy;
+}
+
+input[type="radio"]:hover + .radioButton.navy,
+input[type="radio"]:checked + .radioButton.navy,
+input[type="radio"]:focus + .radioButton.navy {
+  border-color: navy;
+}
+.radioButton.darkred i {
+  color: darkred;
+}
+
+input[type="radio"]:hover + .radioButton.darkred,
+input[type="radio"]:checked + .radioButton.darkred,
+input[type="radio"]:focus + .radioButton.darkred {
+  border-color: darkred;
+}
+
+
+.colorTitle{
+    padding: -10px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+}
+
+#colorListOne, #colorListTwo{
+    max-width: 315px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+}
+
