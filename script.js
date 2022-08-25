@@ -1,32 +1,35 @@
-// window.onload = (event) => {
-
-//     const inputPlayer1 = document.querySelector('#inputPlayer1')
-
-// };
+// Declare value globally
 var playerOneName = "";
 var playerOneColor = "";
 var playerTwoName = "";
 var playerTwoColor = "";
 
+// Setup of the first player
 function getInputOneValue() {
   // Selecting the input element and get its value
   var inputPlayerOne = document.querySelector("#inputPlayer1");
   var colorsPlayerOne = document.querySelectorAll("input[name=color]");
 
-  var colorsPlayerTwo = document.querySelectorAll("input[name=color2]");
+  var labelPlayerTwo = document.querySelectorAll("#colorListTwo .color");
+
+  // If the user don't enter a name, Player one by default
   if (inputPlayerOne.value !== "") {
     playerOneName = inputPlayerOne.value;
   } else {
     playerOneName = "PlayerONE";
   }
-
+  
+  // If the user don't enter a color, red by default and we display none on the next color
   for (let i = 0; i < colorsPlayerOne.length; i++) {
     if (colorsPlayerOne[i].checked) {
       playerOneColor = colorsPlayerOne[i].value;
+      labelPlayerTwo[i].className = "disable" ;
     }
   }
+
+  // Animation betwenn form One and Two
   console.log(playerOneColor, playerOneName);
-  // a faire aprés 1 seconde
+  // a faire avant 1 seconde
   var containerToHide = document.querySelector("#containerOne.information");
   containerToHide.className = "animate__animated animate__zoomOut";
   containerToHide.style.setProperty("--animate-duration", ".8s");
@@ -37,25 +40,26 @@ function getInputOneValue() {
     containerToShow.classList.remove("displayNone");
     containerToShow.className = "animate__animated animate__zoomIn information";
     containerToShow.style.setProperty("--animate-duration", ".8s");
-    for (let i = 0; i < colorsPlayerTwo.length; i++) {
-      if (colorsPlayerOne[i].checked) {
-        colorsPlayerTwo[i].classList.add("disable");
-      }
-    }
     document.querySelector(".player p").innerHTML = playerOneName;
   }, 800);
 }
 
+// Setup of the second player
 function getInputTwoValue() {
   // Selecting the input element and get its value
   var inputPlayerTwo = document.querySelector("#inputPlayer2");
   var colorsPlayerTwo = document.querySelectorAll("input[name=color2]");
+  var colorsPlayerTwo = document.querySelectorAll("input[name=color2]");
 
+
+  // If the user don't enter a name, Player two by default
   if (inputPlayerTwo.value !== "") {
     playerTwoName = inputPlayerTwo.value;
   } else {
     playerTwoName = "PlayerTWO";
   }
+
+    // If the user don't enter a color, yellow by default and we display none on the next color
   for (let i = 0; i < colorsPlayerTwo.length; i++) {
     if (colorsPlayerTwo[i].checked) {
       playerTwoColor = colorsPlayerTwo[i].value;
@@ -63,7 +67,9 @@ function getInputTwoValue() {
   }
   console.log(playerTwoColor, playerTwoName);
 
-  // a faire aprés 1 seconde
+  // Display of the game container
+
+  // a faire avant 1 seconde
   var containerToHide = document.querySelector("#containerTwo.information");
   containerToHide.className = "animate__animated animate__zoomOut";
   containerToHide.style.setProperty("--animate-duration", ".8s");
@@ -74,6 +80,8 @@ function getInputTwoValue() {
     containerToShow.classList.remove("displayNone");
     containerToShow.className = "animate__animated animate__zoomIn";
     containerToShow.style.setProperty("--animate-duration", ".8s");
+
+    // Setup the good value to the good place
     let playerOneTitle = document.querySelector("#playerOne");
     playerOneTitle.innerHTML += " " + playerOneName;
     let playerTwoTitle = document.querySelector("#playerTwo");
@@ -98,13 +106,9 @@ function newGame(button) {
   // Columns
   const columns = [];
   // Array that store columns and rows
-  //   if(localStorage.getItem('connect-four')) {
-  //     const  slotsArray = getLocalStorage()
-  //     console.log(slotsArray)
-  //     }else {
+
   const slotsArray = [];
 
-  // }
   //   where if get slots array in local storage a reback the party
 
   // determine the next color
@@ -121,8 +125,9 @@ function newGame(button) {
     columns.push(column);
   }
 
-  // Class that create a tile
+  // Class that create a Slot for each case
   class Slot {
+    // Setup element
     constructor(element, column, row) {
       this.column = column;
       this.row = row;
@@ -130,6 +135,7 @@ function newGame(button) {
       this.state = "";
       this.animated = "";
     }
+    // for each case  clicked, we gonna change the color of the next player, check for a gameover or win, change the element clickable
     clicked() {
       const el = this.element;
       if (!el.classList.contains("clickable")) return;
@@ -168,7 +174,6 @@ function newGame(button) {
       // change next color
       let oldColor = nextColor; // Change next color for Player 2 color
       if (nextColor == playerOneColor) {
-        //   setLocalStorage(slotsArray)
         nextColor = playerTwoColor;
         scoreBoard.style.borderColor = playerTwoColor;
         document.querySelector(".player p").innerHTML = playerTwoName;
@@ -191,19 +196,19 @@ function newGame(button) {
       const div = document.createElement("div");
       div.classList.add("slot");
       el.appendChild(div);
-      //   here we put back from local storage
-
       const slot = new Slot(div, col, i);
       slotColumn.push(slot);
+      // add the function clickable on click
       div.onclick = () => {
         slot.clicked();
       };
-
+      // Setup position for each slot
       div.style.top = i * 70 + 2 + "px";
     }
     slotsArray.push(slotColumn);
   });
 
+    // add the click event function to each  first element
   slotsArray.forEach((col) => {
     col[5].element.classList.add("clickable", nextColor);
   });
@@ -227,7 +232,9 @@ function isDraw(slotsArray) {
 function testLines(lines, color, slotsArray) {
   // Const that if it's 4 you win
   let connectedSlots = 1;
+  // In each line
   lines.forEach((line) => {
+    // We gonna check each slot 
     for (let i = 0; i < line.length; i++) {
       const slotLocation = line[i];
       column = slotLocation[0];
@@ -236,6 +243,8 @@ function testLines(lines, color, slotsArray) {
       if (column >= 0 && column <= 6 && row >= 0 && row <= 5) {
         // Make sure it's defined
         if (typeof slotsArray[column][row] !== "undefined") {
+          // We gonna add one to the counter if it match the color at the position we define in isWinner
+          
           if (slotsArray[column][row].state == color) {
             console.log(connectedSlots);
             connectedSlots += 1;
@@ -259,6 +268,7 @@ function testLines(lines, color, slotsArray) {
 // Check if there is a winner
 function isWinner(col, row, color, slotsArray) {
   const winningLines = {
+    // condition to win
     horizontal: [
       [
         [col - 1, row],
@@ -309,6 +319,7 @@ function isWinner(col, row, color, slotsArray) {
     ],
   };
 
+  // try each way
   if (
     testLines(winningLines.horizontal, color, slotsArray) == true ||
     testLines(winningLines.vertical, color, slotsArray) == true ||
@@ -323,9 +334,11 @@ function isWinner(col, row, color, slotsArray) {
 
 // Check if the game is over
 function gameOver(winner) {
-  console.log("game over");
+  // add one to the winner
   setScore(winner);
+  // check for the goodname to show
   let winnerName;
+  let looserName;
   if (winner === playerOneColor) {
     winnerName = playerOneName;
     looserName = playerTwoName;
@@ -333,57 +346,32 @@ function gameOver(winner) {
     winnerName = playerTwoName;
     looserName = playerOneName;
   }
-  // document.querySelector(".player h6").innerHTML = "The Winner is :";
-  // document.querySelector(".player p").innerHTML = winnerName;
+
   // Delete the game
   let button = document.querySelector("#playButton");
   let buttonText = document.querySelector("#buttonText");
+
   document.querySelectorAll(".column").forEach((column) => {
-    // column.className = "column animate__animated animate__zoomOut";
-    // column.style.setProperty("--animate-duration", ".2s");
     column.innerHTML = "";
     column.parentNode.removeChild(column);
+    // show the button to restart the game
     button.style.display = "inherit";
-    
     buttonText.innerHTML = winnerName +" Win !!</br></br></br>Revanche "+looserName+" ?" 
-
-
   });
-  // button.className = "column animate__animated animate__zoomIn";
-    // // button.style.setProperty("--animate-duration", ".2s");
-    // theSpan.innerHTML = winnerName + " WIN !";
 }
 
 // Set score on the scoreboard
 function setScore(winner) {
-  let winnerName;
+  // if no winner
   if (winner == "undefined") {
     return;
   }
-  if (winner === playerOneColor) {
-    winnerName = "playerOne";
-  } else if (winner === playerTwoColor) {
-    winnerName = "playerTwo";
-  }
-  document.getElementById(winnerName + "Score").innerHTML =
-    parseInt(document.getElementById(winnerName + "Score").innerHTML) + 1;
+
+  document.getElementById(winner + "Score").innerHTML =
+    parseInt(document.getElementById(winner + "Score").innerHTML) + 1;
 }
 
-function setLocalStorage(slotsArray) {
-  localStorage.setItem("connect-four", JSON.stringify(slotsArray));
-  console.log("set local sotrage");
-}
-function getLocalStorage() {
-  let slotsArray = JSON.parse(localStorage.getItem("connect-four"));
-  console.log("get local sotrage", slotsArray);
-  return slotsArray;
-}
-function deleteLocalStorage() {
-  localStorage.clear();
-  console.log("delete local sotrage");
-  return slotsArray;
-}
-
+// restart all the game
 function refreshGame() {
   location.reload();
 }
